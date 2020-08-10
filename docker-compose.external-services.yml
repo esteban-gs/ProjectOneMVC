@@ -1,0 +1,18 @@
+# UP: docker-compose -f .\docker-compose.external-services.yml up -d
+# DOWN: docker-compose -f .\docker-compose.external-services.yml down
+version: '3.4'
+
+services:
+  proj1-db:
+    image: mcr.microsoft.com/mssql/server:2017-CU11-ubuntu
+    volumes:
+      - proj1-data:/var/opt/mssql/data
+    container_name: proj1-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=!Passw0rd
+    ports:
+      - "1433:1433"
+
+volumes:
+  proj1-data:

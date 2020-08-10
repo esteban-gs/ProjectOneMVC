@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures;
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    string IsActive(string control, string action)
+    {
+        var routeData = ViewContext.RouteData;
+
+        var routeAction = (string)routeData.Values["action"];
+        var routeControl = (string)routeData.Values["controller"];
+
+        // both must match
+        var returnActive = control == routeControl &&
+                           action == routeAction;
+
+        return returnActive ? "active" : "";
+    }
+}
+
+
+<nav class="navbar navbar-horizontal navbar-expand-lg">
+    <div class="container pt-3">
+        <!-- Content here -->
+        <ul class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link mb-sm-3 mb-md-0 @IsActive("Classes", "Index")"
+                   asp-area=""
+                   asp-controller="Classes"
+                   asp-action="Index"
+                   role="button">
+                    Class List
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-sm-3 mb-md-0  @IsActive("Classes", "MyClasses")"
+                   role="button">
+                    Your Enrolled Classes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-sm-3 mb-md-0  @IsActive("Classes", "Enroll")"
+                   role="button">
+                    Enroll in a Class
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
