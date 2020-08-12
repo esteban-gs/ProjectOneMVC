@@ -14,6 +14,7 @@ namespace ProjectOneMVC.Web.MapperProfiles
         {
             //Classes List
             CreateMap<Class, ClassViewModel>();
+            CreateMap<Class, EnrollViewModel>();
         }
     }
 }

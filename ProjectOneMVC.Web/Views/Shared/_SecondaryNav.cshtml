@@ -25,22 +25,25 @@
         <!-- Content here -->
         <ul class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
             <li class="nav-item">
-                <a class="nav-link mb-sm-3 mb-md-0 @IsActive("Classes", "Index")"
-                   asp-area=""
-                   asp-controller="Classes"
-                   asp-action="Index"
+                <a class="nav-link mb-sm-3 mb-md-0 @IsActive("Home", "ClassList")"
+                   asp-controller="Home"
+                   asp-action="ClassList"
                    role="button">
                     Class List
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mb-sm-3 mb-md-0  @IsActive("Classes", "MyClasses")"
+                <a class="nav-link mb-sm-3 mb-md-0  @IsActive("Home", "StudentClasses")"
+                   asp-controller="Home"
+                   asp-action="StudentClasses"
                    role="button">
                     Your Enrolled Classes
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mb-sm-3 mb-md-0  @IsActive("Classes", "Enroll")"
+                <a class="nav-link mb-sm-3 mb-md-0  @IsActive("Home", "Enroll")"
+                   asp-controller="Home"
+                   asp-action="Enroll"
                    role="button">
                     Enroll in a Class
                 </a>

@@ -16,6 +16,9 @@ using AutoMapper;
 using Newtonsoft.Json;
 using ProjectOneMVC.Core.Entities;
 using ProjectOneMVC.Data.Data.Initialization;
+using ProjectOneMVC.Data.Data.Repository;
+using System.Net.Mime;
+using ProjectOneMVC.Web.Services;
 
 namespace ProjectOneMVC
 {
@@ -43,6 +46,17 @@ namespace ProjectOneMVC
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Home/Login";
+            });
+
+            // Repositories
+            services.AddScoped<ClassRepository>();
+            services.AddScoped<UserClassRepository>();
+
+            // Service
+            services.AddScoped<ClassService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +96,8 @@ namespace ProjectOneMVC
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+
+            await context.Database.MigrateAsync();
 
             IdentityResult roleResult;
             //here in this line we are adding Admin Role

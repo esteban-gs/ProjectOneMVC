@@ -15,5 +15,7 @@ namespace ProjectOneMVC.Core.Entities
         [MaxLength(750)]
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public List<UserClass> UserClass { get; set; }
+
     }
 }

@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model ProjectOneMVC.Web.ViewModels.EnrollViewModel
+<td>
+    @Html.DisplayFor(model => model.Name)
+</td>
+<td>
+    @Html.DisplayFor(model => model.Description)
+</td>
+<td>
+    @Html.DisplayFor(model => model.Price)
+</td>
+<td>
+    @Html.CheckBoxFor(model => model.Selected, new { @class = "custom-control custom-control-alternative custom-checkbox mb-3" })
+    <input asp-for="@Model.Id" hidden value="@Model.Id" />
+</td>

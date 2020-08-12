@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Enroll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<ProjectOneMVC.Web.ViewModels.EnrollViewModel>
+
+<h1>Enroll In Class</h1>
+
+<div class="table-responsive">
+    <form asp-controller="Home" asp-action="Enroll">
+        <table class="table align-items-center table-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Selected</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+
+                    <tr>
+                        @Html.EditorFor(model => model[i])
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button  class="btn btn-primary" type="submit">Save changes</button>
+        <button class="btn btn-warning" type="reset">Reset</button>
+    </form>
+</div>
+
+
+
+
