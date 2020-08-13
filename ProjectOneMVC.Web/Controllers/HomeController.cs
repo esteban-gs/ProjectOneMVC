@@ -170,21 +170,16 @@ namespace ProjectOneMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Enroll(List<EnrollViewModel> inputModel)
         {
-            List<Class> dbClasses = new List<Class>();
-            foreach (var item in inputModel)
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var results = await _classService.AssignClassFor(user.Id, inputModel);
+            
+            if (results.Success)
             {
-                if (item.Selected)
-                {
-                    var classToRegister = await _context.Classes.FirstOrDefaultAsync(c => c.Id == item.Id);
-                    dbClasses.Add(classToRegister);
-                }
-
+                return RedirectToAction(nameof(StudentClasses), "Home");
             }
-            var classList = new List<Class>();
-            //classList.Add(classToRegister);
-            // _mapper.Map <List<EnrollViewModel>>(classList)
 
-            return View(_mapper.Map<List<EnrollViewModel>>(dbClasses));
+            ViewData["Error"] = "Class already assigned!";
+            return View(_mapper.Map<List<EnrollViewModel>>(await Task.Run(() => _classService.GetAll())));
         }
 
 

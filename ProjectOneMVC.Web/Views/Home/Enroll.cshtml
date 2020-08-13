@@ -7,7 +7,12 @@
 @model List<ProjectOneMVC.Web.ViewModels.EnrollViewModel>
 
 <h1>Enroll In Class</h1>
-
+@if (@ViewData["Error"] != null)
+{
+<div class="alert alert-warning" role="alert">
+    <strong>Warning!</strong> @ViewData["Error"]
+</div>
+}
 <div class="table-responsive">
     <form asp-controller="Home" asp-action="Enroll">
         <table class="table align-items-center table-dark">
@@ -30,7 +35,7 @@
             </tbody>
         </table>
 
-        <button  class="btn btn-primary" type="submit">Save changes</button>
+        <button class="btn btn-primary" type="submit">Save changes</button>
         <button class="btn btn-warning" type="reset">Reset</button>
     </form>
 </div>
