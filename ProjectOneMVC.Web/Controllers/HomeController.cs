@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ProjectOneMVC.Core.Entities;
-using ProjectOneMVC.Data;
 using ProjectOneMVC.Web.DTO;
 using ProjectOneMVC.Web.Services;
 using ProjectOneMVC.Web.ViewModels;
@@ -27,27 +17,17 @@ namespace ProjectOneMVC.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
         private readonly ClassService _classService;
-
         public HomeController(
             ILogger<HomeController> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IEmailSender emailSender,
-            ApplicationDbContext context,
-            IMapper mapper,
             ClassService classService
             )
         {
             _logger = logger;
             this._userManager = userManager;
             this._signInManager = signInManager;
-            this._emailSender = emailSender;
-            this._context = context;
-            this._mapper = mapper;
             this._classService = classService;
         }
 
@@ -61,6 +41,7 @@ namespace ProjectOneMVC.Controllers
             return View();
         }
 
+        #region Identity
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -146,24 +127,38 @@ namespace ProjectOneMVC.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return View();
+            }
+        }
+        #endregion Identity
+
+
 
         // GET: ClassesController
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult> ClassList()
+        public ActionResult ClassList()
         {
-            var dbClasses = await Task.Run(() => _classService.GetAll());
-            var classesToRetrun = _mapper.Map<List<ClassViewModel>>(dbClasses);
-            return View(classesToRetrun);
+            var classViewModel = _classService.GetAll<ClassViewModel>();
+            return View(classViewModel);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Enroll()
+        public IActionResult Enroll()
         {
-            var classes = await _context.Classes.ToListAsync();
-            var classesToReturn = _mapper.Map<List<EnrollViewModel>>(classes);
-            return View(classesToReturn);
+            var classViewModel = _classService.GetAll<EnrollViewModel>();
+            return View(classViewModel);
         }
 
         [Authorize(Roles = "Admin")]
@@ -178,8 +173,9 @@ namespace ProjectOneMVC.Controllers
                 return RedirectToAction(nameof(StudentClasses), "Home");
             }
 
+            // If we get this far, provice feedback
             ViewData["Error"] = "Class already assigned!";
-            return View(_mapper.Map<List<EnrollViewModel>>(await Task.Run(() => _classService.GetAll())));
+            return View(_classService.GetAll<EnrollViewModel>());
         }
 
 
@@ -189,9 +185,8 @@ namespace ProjectOneMVC.Controllers
         public async Task<ActionResult> StudentClasses()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userClasses = _classService.GetAllForUser(user.Id);
+            var classesToRetrun = _classService.GetAllForUser<ClassViewModel>(user.Id);
 
-            var classesToRetrun = _mapper.Map<List<ClassViewModel>>(userClasses);
             return View(classesToRetrun);
         }
 

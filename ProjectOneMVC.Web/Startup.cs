@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using ProjectOneMVC.Data;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +15,6 @@ using Newtonsoft.Json;
 using ProjectOneMVC.Core.Entities;
 using ProjectOneMVC.Data.Data.Initialization;
 using ProjectOneMVC.Data.Data.Repository;
-using System.Net.Mime;
 using ProjectOneMVC.Web.Services;
 
 namespace ProjectOneMVC
@@ -108,7 +105,7 @@ namespace ProjectOneMVC
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
             }
             //here we are assigning the Admin role to the User that we have registered above 
-            //Now, we are assinging admin role to this user("Ali@gmail.com"). When will we run this project then it will
+            //Now, we are assinging admin role to this user below. When will we run this project then it will
             //be assigned to that user.
             IdentityUser user = await UserManager.FindByEmailAsync("este@example.com");
             var userExists = user != null;
