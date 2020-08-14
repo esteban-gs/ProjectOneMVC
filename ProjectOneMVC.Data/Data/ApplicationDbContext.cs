@@ -1,17 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using ProjectOneMVC.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Text.Json;
 
 namespace ProjectOneMVC.Data
 {

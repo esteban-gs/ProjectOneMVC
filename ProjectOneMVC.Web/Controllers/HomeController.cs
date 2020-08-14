@@ -111,11 +111,6 @@ namespace ProjectOneMVC.Controllers
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(ReturnUrl = ReturnUrl ?? Url.Content("~/"));
                 }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
